@@ -47,14 +47,13 @@ function ClassRoom() {
     const [pageTitle, setPageTitle] = useState('');
     const [pageDescrition, setPageDescrition] = useState('');
     const [typeSection, setTypeSection] = useState('');
-    console.log({pageDescrition});
 
     useEffect(() => {
         if (data?.sections && data?.sections.length > 0) {
             setPageTitle(data?.sections[0].title);
             setPageDescrition(data?.sections[0].description);
             setTypeSection(data?.sections[0].type);
-            // console.log({data?.sections[0].type});
+            console.log({type : data?.sections[0].type});
         }
     }, [data?.sections]);
     
@@ -135,12 +134,12 @@ function ClassRoom() {
                         {/* Lecture Items: Only show if expanded */}
                         {showLectures &&
                             Lectourse.map((lecture, key) => {
-                                console.log({lecture})
                                 return (<div
                                     key={key}
                                     onClick={() => {
                                         setPageTitle(lecture.title);
                                         setPageDescrition(lecture.description);
+                                        setTypeSection(lecture.type);
                                     }}
                                     className="flex cursor-pointer hover:bg-gray-100 items-center p-3 border-b border-gray-200"
                                 >
@@ -175,6 +174,7 @@ function ClassRoom() {
                                     onClick={() => {
                                         setPageTitle(sect.title);
                                         setPageDescrition(sect.description);
+                                        setTypeSection(sect.type);
                                     }}
                                     className="flex gap-3  cursor-pointer hover:bg-gray-100 items-center p-3 border-b border-gray-200"
                                 >
@@ -215,6 +215,7 @@ function ClassRoom() {
                                     onClick={() => {
                                         setPageTitle(q.title);
                                         setPageDescrition(q.description);
+                                        setTypeSection(q.type);
                                     }}
                                      className="flex items-center hover:bg-gray-100 cursor-pointer p-3 border-b border-gray-200">
                                         <FileText className="h-4 w-4 text-gray-500 mr-2" />
@@ -249,27 +250,26 @@ function ClassRoom() {
                 <div className="flex-1 p-8 overflow-y-auto">
                     {/* Top navigation moved here */}
                     <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center">
                             <span className="text-gray-700 font-medium">{pageTitle}</span>
-                            <button variant="ghost" size="icon" className="ml-2">
-                                <ChevronUp className="h-5 w-5" />
-                            </button>
-                            <button variant="ghost" size="icon" className="ml-2">
-                                <ChevronDown className="h-5 w-5" />
-                            </button>
-                        </div>
+                           <div>
+                                <button variant="ghost" size="icon" className="ml-2 bg-gray-100 rounded-md p-1">
+                                    <ChevronUp className="h-5 w-5" />
+                                </button>
+                                <button variant="ghost" size="icon" className="ml-2 bg-gray-100 rounded-md p-1">
+                                    <ChevronDown className="h-5 w-5" />
+                                </button>
+                           </div>
                     </div>
 
-                    <h1 className="text-3xl font-bold mb-8">{pageTitle}</h1>
+                    {/* <h1 className="text-3xl font-bold mb-8">{pageTitle}</h1> */}
 
-                    <div className="flex justify-center mb-8 text-red-400">
-                    <div
-                        className="flex justify-center mb-8"
-                        dangerouslySetInnerHTML={{ __html: pageDescrition }} // correct spelling!
-                        />
+                    <div className="mb-8 text-red-400">
+                        <div
+                            className=" mb-8"
+                            dangerouslySetInnerHTML={{ __html: pageDescrition }} // correct spelling!
+                         />
 
                     </div>
-                    <p className='text-sm text-gray-500'>{typeSection}</p>
                     {
                        typeSection !== "exercise" ? (<CodeEditore/>) : (<CheckEditor/>)
                     }

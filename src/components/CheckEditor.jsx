@@ -5,7 +5,7 @@ import { python } from '@codemirror/lang-python';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 
 const PythonEditor = () => {
-  const [code, setCode] = useState(`#start code here`);
+  const [code, setCode] = useState(`#start code here & hit submit code`);
 
   const runCode = async () => {
     try {
