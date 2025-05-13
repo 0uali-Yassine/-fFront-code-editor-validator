@@ -4,10 +4,12 @@ import CodeMirror from '@uiw/react-codemirror';
 import { python } from '@codemirror/lang-python';
 import { dracula } from '@uiw/codemirror-theme-dracula';
 
-const PythonEditor = () => {
+const PythonEditor = ({data,Sections}) => {
   const [code, setCode] = useState(`#start code here & hit submit code`);
+  console.log({codeCheckData:data});
+  console.log({Sections:Sections});
 
-  const runCode = async () => {
+  const submitCode = async () => {
     try {
       //  backend API: /api/student/check-code
       const response = await fetch('http://localhost:3000/api/student/check-code', {
@@ -32,7 +34,7 @@ const PythonEditor = () => {
         extensions={[python()]}
         onChange={(value) => setCode(value)}
       />
-      <button  onClick={runCode}
+      <button  onClick={submitCode}
       className="bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition"
       >Submit code</button>
     </div>

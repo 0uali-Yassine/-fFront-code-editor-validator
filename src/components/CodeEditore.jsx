@@ -8,18 +8,18 @@ const CodeEditore = () => {
   const [code, setCode] = useState(`#start code here`);
 
   const runCode = async () => {
-    try {
-      //  backend API: /api/student/check-code
-      const response = await fetch('http://localhost:3000/api/student/check-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-      });
+    // try {
+    //   //  backend API: /api/student/check-code
+    //   const response = await fetch('http://localhost:3000/api/student/check-code', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ code }),
+    //   });
 
-      const data = await response.json();
-    } catch (error) {
-       console.log(error);
-    }
+    //   const data = await response.json();
+    // } catch (error) {
+    //    console.log(error);
+    // }
   };
 
   return (

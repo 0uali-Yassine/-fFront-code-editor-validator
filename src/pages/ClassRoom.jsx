@@ -35,8 +35,13 @@ function ClassRoom() {
     const [showAssignments, setShowAssignments] = useState(false); // new
     const [showQuizzes, setShowQuizzes] = useState(false); 
 
+    // this for mutate if student go to another window and come back will keep the index
+    // const [index, setIndex] = useState(0);
+    // mutate will not re-render componente again just data that come from front
+    // so in methode post must add mutate
 
-    const { data, error, isLoading } = useSWR(
+
+    const { data, error, isLoading} = useSWR(
         'http://localhost:3000/api/student-content',
         fetcherWithToken
     );
@@ -53,7 +58,7 @@ function ClassRoom() {
             setPageTitle(data?.sections[0].title);
             setPageDescrition(data?.sections[0].description);
             setTypeSection(data?.sections[0].type);
-            console.log({type : data?.sections[0].type});
+            console.log({page:data?.page,sections:data?.sections,sectionWithCode:data?.sectionWithCode,userId:data?.userId});
         }
     }, [data?.sections]);
     
@@ -138,6 +143,7 @@ function ClassRoom() {
                                     key={key}
                                     onClick={() => {
                                         setPageTitle(lecture.title);
+                                        // setIndex(key);
                                         setPageDescrition(lecture.description);
                                         setTypeSection(lecture.type);
                                     }}
@@ -252,10 +258,10 @@ function ClassRoom() {
                     <div className="flex items-center justify-between mb-4">
                             <span className="text-gray-700 font-medium">{pageTitle}</span>
                            <div>
-                                <button variant="ghost" size="icon" className="ml-2 bg-gray-100 rounded-md p-1">
+                                <button variant="ghost" size="icon" className="ml-2 bg-gray-100 text-black hover:bg-gray-200 rounded-md p-1">
                                     <ChevronUp className="h-5 w-5" />
                                 </button>
-                                <button variant="ghost" size="icon" className="ml-2 bg-gray-100 rounded-md p-1">
+                                <button variant="ghost" size="icon" className="ml-2 bg-gray-100 text-black hover:bg-gray-200 rounded-md p-1">
                                     <ChevronDown className="h-5 w-5" />
                                 </button>
                            </div>
@@ -271,7 +277,7 @@ function ClassRoom() {
 
                     </div>
                     {
-                       typeSection !== "exercise" ? (<CodeEditore/>) : (<CheckEditor/>)
+                       typeSection !== "exercise" ? (<CodeEditore/>) : (<CheckEditor data={data} Sections={Sections}/>)
                     }
 
                 </div>
