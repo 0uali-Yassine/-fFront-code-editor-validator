@@ -4,8 +4,8 @@ import Ego from "../assets/Ego-removebg-preview - Copie.png"
 import { NavLink, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { MdOutlineTimelapse } from "react-icons/md";
-import PythonEditor from '../components/PythonEditor';
-
+import CheckEditor from '../components/CheckEditor';
+import CodeEditore from '../components/CodeEditore';
 const fetcherWithToken = async (url) => {
 
     const token = localStorage.getItem('token');
@@ -41,18 +41,20 @@ function ClassRoom() {
         fetcherWithToken
     );
 
-   
 
     // const { page, sections, sectionWithCode } = data;
 
     const [pageTitle, setPageTitle] = useState('');
     const [pageDescrition, setPageDescrition] = useState('');
+    const [typeSection, setTypeSection] = useState('');
     console.log({pageDescrition});
 
     useEffect(() => {
         if (data?.sections && data?.sections.length > 0) {
             setPageTitle(data?.sections[0].title);
             setPageDescrition(data?.sections[0].description);
+            setTypeSection(data?.sections[0].type);
+            // console.log({data?.sections[0].type});
         }
     }, [data?.sections]);
     
@@ -102,30 +104,18 @@ function ClassRoom() {
                     </div>
                 </div>
             </header>
-            {/* Top navigation */}
-            <div className="flex items-center justify-between border-b p-2">
-                <div className="flex gap-2 items-center border bg-gray-50 p-3 rounded-md">
-                        <ChevronLeft className="h-5 w-5 bg-gray-100 rounded-md text-gray-600 cursor-pointer" />
-                    <span className="text-gray-700 font-medium">{data?.page?.title}</span>
-                        <ChevronRight className="h-5 w-5 bg-gray-100 rounded-md text-gray-600 cursor-pointer" />
-                </div>
-                <div className="flex items-center">
-                    <span className="text-gray-700 font-medium">{pageTitle}</span>
-                    <button variant="ghost" size="icon" className="ml-2">
-                        <ChevronUp className="h-5 w-5" />
-                    </button>
-                    <button variant="ghost" size="icon" className="ml-2">
-                        <ChevronDown className="h-5 w-5" />
-                    </button>
-                </div>
-            </div>
-
             {/* Main content */}
             <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-
-                {/* lecoure */}
                 <div className="relative w-64 border-r overflow-y-auto bg-gray-50">
+                    {/* Navigation controls moved to top of sidebar */}
+                    <div className="flex gap-2 items-center border-b bg-white w-[90%] text-sm">
+                        <ChevronLeft className="h-5 w-5 bg-gray-100 rounded-md text-gray-600 cursor-pointer" />
+                        <span className="text-gray-700 font-medium">{data?.page?.title}</span>
+                        <ChevronRight className="h-5 w-5 bg-gray-100 rounded-md text-gray-600 cursor-pointer" />
+                    </div>
+
+                    {/* lecoure */}
                     <div className="relative w-64 border-r overflow-y-auto">
                         {/* Header: Click to toggle */}
                         <div
@@ -158,7 +148,7 @@ function ClassRoom() {
                                     <span className="text-gray-700">{lecture.title}</span>
                                 </div>)
 
-    })}
+                             })}
                     </div>
                     {/* exercice */}
                     <div className="relative w-64 border-r overflow-y-auto">
@@ -257,6 +247,19 @@ function ClassRoom() {
 
                 {/* Main content area */}
                 <div className="flex-1 p-8 overflow-y-auto">
+                    {/* Top navigation moved here */}
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center">
+                            <span className="text-gray-700 font-medium">{pageTitle}</span>
+                            <button variant="ghost" size="icon" className="ml-2">
+                                <ChevronUp className="h-5 w-5" />
+                            </button>
+                            <button variant="ghost" size="icon" className="ml-2">
+                                <ChevronDown className="h-5 w-5" />
+                            </button>
+                        </div>
+                    </div>
+
                     <h1 className="text-3xl font-bold mb-8">{pageTitle}</h1>
 
                     <div className="flex justify-center mb-8 text-red-400">
@@ -266,7 +269,10 @@ function ClassRoom() {
                         />
 
                     </div>
-                    <PythonEditor/>
+                    <p className='text-sm text-gray-500'>{typeSection}</p>
+                    {
+                       typeSection !== "exercise" ? (<CodeEditore/>) : (<CheckEditor/>)
+                    }
 
                 </div>
             </div>
